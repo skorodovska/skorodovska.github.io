@@ -272,6 +272,301 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="skorodovska.top/2019/02/11/hibernate会话/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liyinghai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SKORODOVSKA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/11/hibernate会话/" itemprop="url">hibernate会话</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-11T00:00:00+08:00">
+                2019-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/11/hibernate会话/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/02/11/hibernate会话/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h2><p>Session 用于获取与数据库的物理连接。 Session 对象是轻量级的，并且设计为在每次需要与数据库进行交互时被实例化。持久态对象被保存，并通过 Session 对象检索找回。</p>
+<p>该 Session 对象不应该长时间保持开放状态，因为它们通常不能保证线程安全，而应该根据需求被创建和销毁。Session 的主要功能是为映射实体类的实例提供创建，读取和删除操作。这些实例可能在给定时间点时存在于以下三种状态之一：</p>
+<ul>
+<li><strong>瞬时状态</strong>: 一种新的持久性实例，被 Hibernate 认为是瞬时的，它不与 Session 相关联（不是通过Session查出来的），在数据库中没有与之关联的记录且无标识符值（ID值）。</li>
+<li><strong>持久状态</strong>：可以将一个瞬时状态实例通过与一个 Session 关联的方式将其转化为持久状态实例（比如save方法）。持久状态实例在数据库中没有与之关联的记录，有标识符值（ID值），并与一个 Session 关联。</li>
+<li><strong>脱管状态</strong>：一旦关闭 Hibernate Session，持久状态实例将会成为脱管状态实例。</li>
+</ul>
+<p>若 Session 实例的持久态类别是序列化的，则该 Session 实例是序列化的。一个典型的事务应该使用以下语法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Session session = factory.openSession();</span><br><span class="line">Transaction tx = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">   tx = session.beginTransaction();</span><br><span class="line">   <span class="comment">// do some work</span></span><br><span class="line">   ...</span><br><span class="line">   tx.commit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">   <span class="keyword">if</span> (tx!=<span class="keyword">null</span>) tx.rollback();</span><br><span class="line">   e.printStackTrace(); </span><br><span class="line">&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">   session.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果 Session 引发异常，则事务必须被回滚，该 session 必须被丢弃。</p>
+<h2 id="Session-接口方法"><a href="#Session-接口方法" class="headerlink" title="Session 接口方法"></a>Session 接口方法</h2><p><strong>Session</strong> 接口提供了很多方法，但在以下讲解中我将仅列出几个我们会在本教程中应用的重要方法。您可以查看 Hibernate 文件，查询与 <strong>Session</strong> 及 <strong>SessionFactory</strong> 相关的完整方法目录。</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>Session 方法及说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Transaction beginTransaction()</strong> 开始工作单位，并返回关联事务对象。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>void cancelQuery()</strong> 取消当前的查询执行。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>void clear()</strong> 完全清除该会话。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Connection close()</strong> 通过释放和清理 JDBC 连接以结束该会话。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Criteria createCriteria(Class persistentClass)</strong> 为给定的实体类或实体类的超类创建一个新的 Criteria 实例。</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Criteria createCriteria(String entityName)</strong> 为给定的实体名称创建一个新的 Criteria 实例。</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Serializable getIdentifier(Object object)</strong> 返回与给定实体相关联的会话的标识符值。</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Query createFilter(Object collection, String queryString)</strong> 为给定的集合和过滤字符创建查询的新实例。</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Query createQuery(String queryString)</strong> 为给定的 HQL 查询字符创建查询的新实例。</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>SQLQuery createSQLQuery(String queryString)</strong> 为给定的 SQL 查询字符串创建 SQLQuery 的新实例。</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>void delete(Object object)</strong> 从数据存储中删除持久化实例。</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>void delete(String entityName, Object object)</strong> 从数据存储中删除持久化实例。</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Session get(String entityName, Serializable id)</strong> 返回给定命名的且带有给定标识符或 null 的持久化实例（若无该种持久化实例）。</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>SessionFactory getSessionFactory()</strong> 获取创建该会话的 session 工厂。</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>void refresh(Object object)</strong> 从基本数据库中重新读取给定实例的状态。</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>Transaction getTransaction()</strong> 获取与该 session 关联的事务实例。</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>boolean isConnected()</strong> 检查当前 session 是否连接。</td>
+</tr>
+<tr>
+<td>18</td>
+<td><strong>boolean isDirty()</strong> 该 session 中是否包含必须与数据库同步的变化？</td>
+</tr>
+<tr>
+<td>19</td>
+<td><strong>boolean isOpen()</strong> 检查该 session 是否仍处于开启状态。</td>
+</tr>
+<tr>
+<td>20</td>
+<td><strong>Serializable save(Object object)</strong> 先分配一个生成的标识，以保持给定的瞬时状态实例。</td>
+</tr>
+<tr>
+<td>21</td>
+<td><strong>void saveOrUpdate(Object object)</strong> 保存（对象）或更新（对象）给定的实例。</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>void update(Object object)</strong> 更新带有标识符且是给定的处于脱管状态的实例的持久化实例。</td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>void update(String entityName, Object object)</strong> 更新带有标识符且是给定的处于脱管状态的实例的持久化实例。</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="skorodovska.top/2018/09/01/优雅的vim/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1963,7 +2258,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
