@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Who am I? Where am I?">
+<meta name="description" content="通过bulk collect减少loop处理的开销，使用Bulk Collect提高Oracle查询效率 Oracle8i中首次引入了Bulk Collect特性，该特性可以让我们在PL/SQL中能使用批查询，批查询在某些情况下能显著提高查询效率。 采用bulk collect可以将查询结果一次性地加载到collections中。 而不是通过cursor一条一条地处理。 可以在select int">
 <meta name="keywords" content="技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="优雅的vim">
-<meta property="og:url" content="skorodovska.top/2018/09/01/优雅的vim/index.html">
+<meta property="og:title" content="bulk collect">
+<meta property="og:url" content="skorodovska.top/2019/09/04/bulk collect/index.html">
 <meta property="og:site_name" content="SKORODOVSKA">
-<meta property="og:description" content="Who am I? Where am I?">
+<meta property="og:description" content="通过bulk collect减少loop处理的开销，使用Bulk Collect提高Oracle查询效率 Oracle8i中首次引入了Bulk Collect特性，该特性可以让我们在PL/SQL中能使用批查询，批查询在某些情况下能显著提高查询效率。 采用bulk collect可以将查询结果一次性地加载到collections中。 而不是通过cursor一条一条地处理。 可以在select int">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-29T07:24:12.039Z">
+<meta property="og:updated_time" content="2019-09-04T07:18:38.689Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="优雅的vim">
-<meta name="twitter:description" content="Who am I? Where am I?">
+<meta name="twitter:title" content="bulk collect">
+<meta name="twitter:description" content="通过bulk collect减少loop处理的开销，使用Bulk Collect提高Oracle查询效率 Oracle8i中首次引入了Bulk Collect特性，该特性可以让我们在PL/SQL中能使用批查询，批查询在某些情况下能显著提高查询效率。 采用bulk collect可以将查询结果一次性地加载到collections中。 而不是通过cursor一条一条地处理。 可以在select int">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="skorodovska.top/2018/09/01/优雅的vim/">
+  <link rel="canonical" href="skorodovska.top/2019/09/04/bulk collect/">
 
 
 
 
 
-  <title>优雅的vim | SKORODOVSKA</title>
+  <title>bulk collect | SKORODOVSKA</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="skorodovska.top/2018/09/01/优雅的vim/">
+    <link itemprop="mainEntityOfPage" href="skorodovska.top/2019/09/04/bulk collect/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="liyinghai">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">优雅的vim</h1>
+          <h1 class="post-title" itemprop="name headline">bulk collect</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-01T12:38:36+08:00">
-                2018-09-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-04T12:38:36+08:00">
+                2019-09-04
               </time>
             
 
@@ -343,8 +343,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/01/优雅的vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/01/优雅的vim/" itemprop="commentCount"></span>
+                <a href="/2019/09/04/bulk collect/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/04/bulk collect/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -403,7 +403,16 @@
       
 
       
-        
+        <p>通过bulk collect减少loop处理的开销，使用Bulk Collect提高Oracle查询效率</p>
+<p>Oracle8i中首次引入了Bulk Collect特性，该特性可以让我们在PL/SQL中能使用批查询，批查询在某些情况下能显著提高查询效率。</p>
+<p>采用bulk collect可以将查询结果一次性地加载到collections中。</p>
+<p>而不是通过cursor一条一条地处理。</p>
+<p>可以在select into,fetch into,returning into语句使用bulk collect。</p>
+<p>注意在使用bulk collect时，所有的into变量都必须是collections</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">View Code </span><br><span class="line"><span class="comment">--在select into语句中使用bulk collect</span></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">TYPE</span> SalList <span class="keyword">IS</span> <span class="keyword">TABLE</span> <span class="keyword">OF</span> emp.sal%<span class="keyword">TYPE</span>;</span><br><span class="line">sals SalList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="comment">-- Limit the number of rows to 100.</span></span><br><span class="line"><span class="keyword">SELECT</span> sal <span class="keyword">BULK</span> <span class="keyword">COLLECT</span> <span class="keyword">INTO</span> sals <span class="keyword">FROM</span> emp</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">ROWNUM</span> &lt;= <span class="number">100</span>;</span><br><span class="line"><span class="comment">-- Retrieve 10% (approximately) of the rows in the table.</span></span><br><span class="line"><span class="keyword">SELECT</span> sal <span class="keyword">BULK</span> <span class="keyword">COLLECT</span> <span class="keyword">INTO</span> sals <span class="keyword">FROM</span> emp <span class="keyword">SAMPLE</span> <span class="number">10</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line">/</span><br><span class="line"><span class="comment">--在fetch into中使用bulk collect</span></span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line"><span class="keyword">TYPE</span> DeptRecTab <span class="keyword">IS</span> <span class="keyword">TABLE</span> <span class="keyword">OF</span> dept%ROWTYPE;</span><br><span class="line">dept_recs DeptRecTab;</span><br><span class="line">CURSOR c1 IS</span><br><span class="line"><span class="keyword">SELECT</span> deptno, dname, loc <span class="keyword">FROM</span> dept <span class="keyword">WHERE</span> deptno &gt; <span class="number">10</span>;</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">OPEN</span> c1;</span><br><span class="line">FETCH c1 BULK COLLECT INTO dept_recs;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line">/</span><br><span class="line"><span class="comment">--在returning into中使用bulk collect</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> emp2 <span class="keyword">AS</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> employees;</span><br><span class="line"><span class="keyword">DECLARE</span></span><br><span class="line"><span class="keyword">TYPE</span> NumList <span class="keyword">IS</span> <span class="keyword">TABLE</span> <span class="keyword">OF</span> employees.employee_id%<span class="keyword">TYPE</span>;</span><br><span class="line">enums NumList;</span><br><span class="line">TYPE NameList IS TABLE OF employees.last_name%TYPE;</span><br><span class="line">names NameList;</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> emp2 <span class="keyword">WHERE</span> department_id = <span class="number">30</span></span><br><span class="line"><span class="keyword">RETURNING</span> employee_id, last_name <span class="keyword">BULK</span> <span class="keyword">COLLECT</span> <span class="keyword">INTO</span> enums, <span class="keyword">names</span>;</span><br><span class="line">dbms_output.put_line('Deleted ' || SQL%ROWCOUNT || ' rows:');</span><br><span class="line">FOR i IN enums.FIRST .. enums.LAST</span><br><span class="line">LOOP</span><br><span class="line">dbms_output.put_line('Employee <span class="comment">#' || enums(i) || ': ' || names(i));</span></span><br><span class="line"><span class="keyword">END</span> <span class="keyword">LOOP</span>;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line">/</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> emp2;</span><br></pre></td></tr></table></figure>
+<p>通过上面的测试和分析，我们可以看到Bulk<br>Collect批查询在某种程度上可以提高查询效率，它首先将所需数据读入内存，然后再统计分析，这样就可以提高查询效率。但是，如果Oracle数据库的内存较小，Shared<br>Pool Size不足以保存Bulk Collect批查询结果，那么该方法需要将Bulk Collect的集合结果保存在磁盘上，在这种情况下，Bulk<br>Collect方法的效率反而不如其他两种方法，有兴趣的读者可以进一步测试。</p>
+<p>另外，除了Bulk Collect批查询外，我们还可以使用FORALL语句来实现批插入、删除和更新，这在大批量数据操作时可以显著提高执行效率。</p>
+
       
     </div>
     
@@ -433,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/07/ElasticSearchForJava/" rel="next" title="ElasticSearch for Java">
-                <i class="fa fa-chevron-left"></i> ElasticSearch for Java
+              <a href="/2019/09/04/oracle游标/" rel="next" title="ORACLE游标">
+                <i class="fa fa-chevron-left"></i> ORACLE游标
               </a>
             
           </div>
@@ -442,10 +451,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/11/hibernate会话/" rel="prev" title="hibernate会话">
-                hibernate会话 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -751,9 +756,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'skorodovska.top/2018/09/01/优雅的vim/';
-          this.page.identifier = '2018/09/01/优雅的vim/';
-          this.page.title = '优雅的vim';
+          this.page.url = 'skorodovska.top/2019/09/04/bulk collect/';
+          this.page.identifier = '2019/09/04/bulk collect/';
+          this.page.title = 'bulk collect';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://lyh.disqus.com/embed.js';

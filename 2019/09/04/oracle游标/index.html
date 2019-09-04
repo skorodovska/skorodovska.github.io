@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="技术,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="游标的概念 游标是SQL的一个内存工作区：由系统或用户以变量的形式定义。游标的作用就是用于临时存储从数据库中提取的数据块。在某些情况下，需要把数据从存放在磁盘的表中调到计算机内存中进行处理，最后将处理结果显示出来或最终写回数据库。这样数据处理的速度才会提高，否则频繁的磁盘数据交换会降低效率。   游标有两种类型：显式游标和隐式游标。例如在SELECT...INTO...查询语句，一次只能从数据库中">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORACLE游标">
+<meta property="og:url" content="skorodovska.top/2019/09/04/oracle游标/index.html">
+<meta property="og:site_name" content="SKORODOVSKA">
+<meta property="og:description" content="游标的概念 游标是SQL的一个内存工作区：由系统或用户以变量的形式定义。游标的作用就是用于临时存储从数据库中提取的数据块。在某些情况下，需要把数据从存放在磁盘的表中调到计算机内存中进行处理，最后将处理结果显示出来或最终写回数据库。这样数据处理的速度才会提高，否则频繁的磁盘数据交换会降低效率。   游标有两种类型：显式游标和隐式游标。例如在SELECT...INTO...查询语句，一次只能从数据库中">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-04T07:17:58.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ORACLE游标">
+<meta name="twitter:description" content="游标的概念 游标是SQL的一个内存工作区：由系统或用户以变量的形式定义。游标的作用就是用于临时存储从数据库中提取的数据块。在某些情况下，需要把数据从存放在磁盘的表中调到计算机内存中进行处理，最后将处理结果显示出来或最终写回数据库。这样数据处理的速度才会提高，否则频繁的磁盘数据交换会降低效率。   游标有两种类型：显式游标和隐式游标。例如在SELECT...INTO...查询语句，一次只能从数据库中">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="skorodovska.top/2019/09/04/oracle游标/">
+
+
+
+
+
+  <title>ORACLE游标 | SKORODOVSKA</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SKORODOVSKA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">All rivers and lakes through the ages</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            Books
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-movies">
+          <a href="/movies" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            Movies
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="skorodovska.top/2019/09/04/oracle游标/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liyinghai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://skorodovska.oss-cn-beijing.aliyuncs.com/%5B2528%5DRED-65889763.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SKORODOVSKA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ORACLE游标</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-04T12:38:36+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/04/oracle游标/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/04/oracle游标/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="游标的概念"><a href="#游标的概念" class="headerlink" title="游标的概念"></a>游标的概念</h3><ul>
+<li><p>游标是<code>SQL</code>的一个内存工作区：由系统或用户以变量的形式定义。<strong>游标的作用就是用于临时存储从数据库中提取的数据块。在某些情况下，需要把数据从存放在磁盘的表中调到计算机内存中进行处理，最后将处理结果显示出来或最终写回数据库。</strong>这样数据处理的速度才会提高，否则频繁的磁盘数据交换会降低效率。 </p>
+</li>
+<li><p>游标有两种类型：显式游标和隐式游标。例如在<code>SELECT...INTO...</code>查询语句，一次只能从数据库中提取一行数据，对于这种形式的查询和<code>DML</code>操作，系统都会使用一个隐式游标。但是<strong>如果要提取多行数据，就要由程序员定义一个显式游标，并通过与游标有关的语句进行处理。</strong>显式游标对应一个返回结果为多行多列的SELECT语句。 </p>
+</li>
+<li><p>原理：游标一旦打开，数据就从数据库中传送到游标变量中，然后应用程序再从游标变量中分解出需要的数据，并进行处理。</p>
+</li>
+</ul>
+<p>###隐式游标</p>
+<p>如前所述，DML操作和单行SELECT语句会使用隐式游标，它们是： </p>
+<ul>
+<li>插入操作：INSERT</li>
+<li>更新操作：UPDATE</li>
+<li>删除操作：DELETE</li>
+<li>单行查询操作：SELECT … INTO …</li>
+</ul>
+<p>当系统使用一个隐式游标时，可以通过隐式游标的属性来了解操作的状态和结果，进而控制程序的流程。隐式游标可以使用名字<code>SQL</code>来访问，但要注意，通过<code>SQL</code>游标名总是只能访问前一个<code>DML</code>操作或单行SELECT操作的游标属性。所以通常在刚刚执行完操作之后，立即使用<code>SQL</code>游标名来访问属性。<strong>游标的属性有四种</strong>，如下所示。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--隐式游标的属性 返回值类型    意    义   </span></span><br><span class="line">SQL%ROWCOUNT    整型       代表DML语句成功执行的数据行数   </span><br><span class="line">SQL%FOUND       布尔型     值为TRUE代表插入、删除、更新或单行查询操作成功   </span><br><span class="line">SQL%NOTFOUND    布尔型     与SQL%FOUND属性返回值相反   </span><br><span class="line">SQL%ISOPEN      布尔型     DML执行过程中为真，结束后为假</span><br></pre></td></tr></table></figure>
+<p>输入和运行以下程序： </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">BEGIN</span>  </span><br><span class="line">        <span class="keyword">UPDATE</span> fw_org <span class="keyword">SET</span> org_name=<span class="string">'lyh'</span> <span class="keyword">WHERE</span> org_id=<span class="number">1111</span>;   </span><br><span class="line">         IF SQL%FOUND THEN    </span><br><span class="line">        DBMS_OUTPUT.PUT_LINE('修改组织名称成功！');   </span><br><span class="line">        <span class="keyword">COMMIT</span>;  </span><br><span class="line">        ELSE  </span><br><span class="line">        DBMS_OUTPUT.PUT_LINE('修改组织名称失败！');</span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">IF</span>; </span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>运行结果为： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">修改组织名称失败！   </span><br><span class="line">PL/SQL 过程已成功完成。</span><br></pre></td></tr></table></figure>
+<p>步骤2：将雇员编号1234改为7788，重新执行以上程序：<br>运行结果为： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">修改组织名称成功！   </span><br><span class="line">PL/SQL 过程已成功完成。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在编写存储过程时，有时会用<code>dbms_output.put_line</code>将必要的信息输出，以便对存储过程进行调试</p>
+</blockquote>
+<h3 id="显式游标"><a href="#显式游标" class="headerlink" title="显式游标"></a>显式游标</h3><p>游标的使用分成以下4个步骤。 </p>
+<ul>
+<li><p>声明游标 </p>
+<p>在DECLEAR部分按以下格式声明游标：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CURSOR 游标名[(参数1 数据类型[，参数2 数据类型...])] </span><br><span class="line">IS <span class="keyword">SELECT</span>语句;</span><br></pre></td></tr></table></figure>
+<p>参数是可选部分，所定义的参数可以出现在SELECT语句的WHERE子句中。如果定义了参数，则必须在打开游标时传递相应的实际参数。<br>SELECT语句是对表或视图的查询语句，甚至也可以是联合查询。可以带WHERE条件、ORDER BY或GROUP BY等子句，但不能使用INTO子句。在SELECT语句中可以使用在定义游标之前定义的变量。 </p>
+</li>
+<li><p>打开游标 </p>
+<p>在可执行部分，按以下格式打开游标： </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPEN 游标名[(实际参数1[，实际参数2...])];</span><br></pre></td></tr></table></figure>
+<p>打开游标时，SELECT语句的查询结果就被传送到了游标工作区。 </p>
+</li>
+<li><p>提取数据 </p>
+<p>在可执行部分，按以下格式将游标工作区中的数据取到变量中。提取操作必须在打开游标之后进行。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FETCH 游标名 INTO 变量名1[，变量名2...];</span><br><span class="line">或 </span><br><span class="line">FETCH 游标名 BULK COLLECT INTO 记录变量;</span><br></pre></td></tr></table></figure>
+<p>游标打开后有一个指针指向数据区，FETCH语句一次返回指针所指的一行数据，要返回多行需重复执行，可以使用循环语句来实现。控制循环可以通过判断游标的属性来进行。</p>
+<p>下面对这两种格式进行说明：<br>第一种格式中的变量名是用来从游标中接收数据的变量，需要事先定义。变量的个数和类型应与SELECT语句中的字段变量的个数和类型一致，在使用时也可以做修改，更加灵活。<br>第二种格式一次将一行数据取到记录变量中，需要使用<code>%ROWTYPE</code>事先定义记录变量，这种形式使用起来比较方便，不必分别定义和使用多个变量。 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--FETCH 游标名 INTO 变量名1[，变量名2...];</span></span><br><span class="line">type refcur is ref cursor;</span><br><span class="line">rCursor refcur;</span><br><span class="line"></span><br><span class="line">open rCursor for</span><br><span class="line"><span class="keyword">select</span> t.id,t.cn,t.mail,t.mobile,t.employeenumber,o.auth_org_id,t.departmentnumber,t.o</span><br><span class="line"><span class="keyword">from</span> base_ldap_user t</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> fw_org_relation o <span class="keyword">on</span> t.departmentnumber = o.ldap_code;</span><br><span class="line"></span><br><span class="line">loop</span><br><span class="line">fetch rCursor into sAcctName,sUserName,sMail,sMobile,sEhrCode,iOrgId,sLdapOrg,sLdapOrgName;</span><br><span class="line">exit when rCursor%notfound;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> s_framework.nextval <span class="keyword">into</span> iAcctId <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> fw_account(acct_id,acct_name,user_name,acct_pwd,<span class="keyword">status</span>,email,phone,create_time)</span><br><span class="line"><span class="keyword">values</span> (iAcctId, sAcctName, sUserName,dbms_random.string(<span class="string">'a'</span>,<span class="number">10</span>),<span class="string">'A'</span>,sMail,sMobile,<span class="keyword">sysdate</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">loop</span>;</span><br><span class="line"><span class="comment">--FETCH 游标名 INTO 记录变量; </span></span><br><span class="line">ruser fw_account%ROWTYPE <span class="comment">--定义变量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> t.id,t.cn,t.mail,t.mobile,t.employeenumber,o.auth_org_id,t.departmentnumber,t.o</span><br><span class="line"><span class="keyword">into</span> ruser</span><br><span class="line"><span class="keyword">from</span> base_ldap_user t</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> fw_org_relation o <span class="keyword">on</span> t.departmentnumber = o.ldap_code;</span><br><span class="line"></span><br><span class="line">FETCH ruser BULK COLLECT INTO fw_account;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>type refcur is ref cursor</code> 含义：</p>
+<p>整体的意思是“创建一个类型变量<code>refcur</code> ，它引用游标”，除了cur外，其余全是关键字。</p>
+<p>is ref cursor：相当于数据类型，不过是引用游标的数据类型。</p>
+<p>这种变量通常用于存储过程和函数返回结果集时使用，因为<code>PL/SQL</code>不允许存储过程或函数直接返回结果集，但可以返回类型变量，于是引用游标的类型变量作为输出参数或返回值就应运而生了。</p>
+</blockquote>
+</li>
+<li><p>关闭游标</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLOSE 游标名;</span><br></pre></td></tr></table></figure>
+<p>显式游标打开后，必须显式地关闭。游标一旦关闭，游标占用的资源就被释放，游标变成无效，必须重新打开才能使用。</p>
+</li>
+</ul>
+<h3 id="游标取值实例"><a href="#游标取值实例" class="headerlink" title="游标取值实例"></a>游标取值实例</h3><ul>
+<li>示例1：用游标提取<code>emp</code>表中7788雇员的名称和职务。 </li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span>    </span><br><span class="line">         v_ename VARCHAR2(<span class="number">10</span>);   </span><br><span class="line">         v_job VARCHAR2(10);   </span><br><span class="line">         CURSOR emp_cursor IS    </span><br><span class="line">         <span class="keyword">SELECT</span> ename,job <span class="keyword">FROM</span> emp <span class="keyword">WHERE</span> empno=<span class="number">7788</span>;   </span><br><span class="line">         <span class="keyword">BEGIN</span>  </span><br><span class="line">     <span class="keyword">OPEN</span> emp_cursor;   </span><br><span class="line">    FETCH emp_cursor INTO v_ename,v_job;   </span><br><span class="line">        DBMS_OUTPUT.PUT_LINE(v_ename||','||v_job);   </span><br><span class="line">        CLOSE emp_cursor;   </span><br><span class="line">        <span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>执行结果为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SCOTT,ANALYST,3000   </span><br><span class="line">PL/SQL 过程已成功完成。</span><br></pre></td></tr></table></figure>
+<p>说明：实例中使用记录变量来接收数据，记录变量由游标变量定义，需要出现在游标定义之后。<br>注意：可通过以下形式获得记录变量的内容：<br>记录变量名.字段名。 </p>
+<ul>
+<li>示例2：显示工资最高的前3名雇员的名称和工资。 </li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span>  </span><br><span class="line">        V_ename VARCHAR2(<span class="number">10</span>);   </span><br><span class="line">       V_sal NUMBER(5);   </span><br><span class="line">       CURSOR emp_cursor IS  <span class="keyword">SELECT</span> ename,sal <span class="keyword">FROM</span> emp <span class="keyword">ORDER</span> <span class="keyword">BY</span> sal <span class="keyword">DESC</span>;   </span><br><span class="line">       <span class="keyword">BEGIN</span>  </span><br><span class="line">        <span class="keyword">OPEN</span> emp_cursor;   </span><br><span class="line">        FOR I IN 1..3 LOOP   </span><br><span class="line">          FETCH emp_cursor INTO v_ename,v_sal;   </span><br><span class="line">        DBMS_OUTPUT.PUT_LINE(v_ename||','||v_sal);   </span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line">        CLOSE emp_cursor;   </span><br><span class="line">        <span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>执行结果为: </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">KING,5000   </span><br><span class="line">SCOTT,3000   </span><br><span class="line">FORD,3000   </span><br><span class="line">PL/SQL 过程已成功完成。</span><br></pre></td></tr></table></figure>
+<p> 说明：该程序在游标定义中使用了ORDER BY子句进行排序，并使用循环语句来提取多行数据。 </p>
+<ul>
+<li>示例3：游标循环  使用特殊的FOR循环形式显示全部雇员的编号和名称。 </li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span>  </span><br><span class="line">  <span class="keyword">CURSOR</span> emp_cursor <span class="keyword">IS</span>    </span><br><span class="line">  <span class="keyword">SELECT</span> empno, ename <span class="keyword">FROM</span> emp;   </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"><span class="keyword">FOR</span> Emp_record <span class="keyword">IN</span> emp_cursor <span class="keyword">LOOP</span>      </span><br><span class="line">    DBMS_OUTPUT.PUT_LINE(Emp_record.empno|| Emp_record.ename);   </span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line">    <span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>执行结果为： </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">7369SMITH   </span><br><span class="line">7499ALLEN   </span><br><span class="line">7521WARD   </span><br><span class="line">7566JONES   </span><br><span class="line">PL/SQL 过程已成功完成。</span><br></pre></td></tr></table></figure>
+<p>说明：可以看到该循环形式非常简单，隐含了记录变量的定义、游标的打开、提取和关闭过程。Emp_record为隐含定义的记录变量，循环的执行次数与游标取得的数据的行数相一致。 </p>
+<ul>
+<li>示例4：另一种形式的游标循环。 </li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> SERVEROUTPUT <span class="keyword">ON</span>    </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">FOR</span> re <span class="keyword">IN</span> (<span class="keyword">SELECT</span> ename <span class="keyword">FROM</span> EMP)  <span class="keyword">LOOP</span>   </span><br><span class="line">  DBMS_OUTPUT.PUT_LINE(re.ename)   </span><br><span class="line"> <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>执行结果为： </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SMITH   </span><br><span class="line">ALLEN   </span><br><span class="line">WARD   </span><br><span class="line">JONES</span><br></pre></td></tr></table></figure>
+<p> 说明：该种形式更为简单，省略了游标的定义，游标的SELECT查询语句在循环中直接出现。 </p>
+<h3 id="显式游标属性"><a href="#显式游标属性" class="headerlink" title="显式游标属性"></a>显式游标属性</h3><p>虽然可以使用前面的形式获得游标数据，但是在游标定义以后使用它的一些属性来进行结构控制是一种更为灵活的方法。显式游标的属性如下所示。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">游标的属性       返回值类型            意    义   </span><br><span class="line">%ROWCOUNT      整型                获得FETCH语句返回的数据行数   </span><br><span class="line">%FOUND        布尔型       		最近的FETCH语句返回一行数据则为真，否则为假   </span><br><span class="line">%NOTFOUND     布尔型               与%FOUND属性返回值相反   </span><br><span class="line">%ISOPEN       布尔型               游标已经打开时值为真，否则为假</span><br></pre></td></tr></table></figure>
+<p>可按照以下形式取得游标的属性：<br>游标名%属性<br>要判断游标<code>emp_cursor</code>是否处于打开状态，可以使用属性<code>emp_cursor%ISOPEN</code>。如果游标已经打开，则返回值为<code>true</code>，否则为<code>false</code>。具体可参照以下的训练。 </p>
+<ul>
+<li><p>使用游标的属性</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> SERVEROUTPUT <span class="keyword">ON</span>  </span><br><span class="line"><span class="keyword">DECLARE</span>  </span><br><span class="line">  V_ename VARCHAR2(<span class="number">10</span>);   </span><br><span class="line">  CURSOR emp_cursor IS    </span><br><span class="line">  <span class="keyword">SELECT</span> ename <span class="keyword">FROM</span> emp;   </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">OPEN</span> emp_cursor;   </span><br><span class="line"> IF emp_cursor%ISOPEN THEN  </span><br><span class="line">LOOP   </span><br><span class="line">   FETCH emp_cursor INTO v_ename;   </span><br><span class="line">   EXIT WHEN emp_cursor%NOTFOUND;   </span><br><span class="line">   DBMS_OUTPUT.PUT_LINE(to_char(emp_cursor%ROWCOUNT)||'-'||v_ename);   </span><br><span class="line">  <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line"> ELSE  </span><br><span class="line">  DBMS_OUTPUT.PUT_LINE('用户信息：游标没有打开！');   </span><br><span class="line"> <span class="keyword">END</span> <span class="keyword">IF</span>;   </span><br><span class="line"> CLOSE  emp_cursor;   </span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>说明：本例使用<code>emp_cursor%ISOPEN</code>判断游标是否打开；使用<code>emp_cursor%ROWCOUNT</code>获得到目前为止FETCH语句返回的数据行数并输出；使用循环来获取数据，在循环体中使用FETCH语句；使用<code>emp_cursor%NOTFOUND</code>判断FETCH语句是否成功执行，当FETCH语句失败时说明数据已经取完，退出循环。 </p>
+</li>
+<li><p>游标参数的传递 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> SERVEROUTPUT <span class="keyword">ON</span>  </span><br><span class="line">        <span class="keyword">DECLARE</span>  </span><br><span class="line">            V_empno <span class="built_in">NUMBER</span>(<span class="number">5</span>);   </span><br><span class="line">            V_ename VARCHAR2(10);   </span><br><span class="line">            CURSOR  emp_cursor(p_deptno NUMBER,     p_job VARCHAR2) IS  </span><br><span class="line">            <span class="keyword">SELECT</span>  empno, ename <span class="keyword">FROM</span> emp   </span><br><span class="line">            <span class="keyword">WHERE</span>   deptno = p_deptno <span class="keyword">AND</span> job = p_job;   </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">     <span class="keyword">OPEN</span> emp_cursor(<span class="number">10</span>, <span class="string">'CLERK'</span>);   </span><br><span class="line">    LOOP   </span><br><span class="line">     FETCH emp_cursor INTO v_empno,v_ename;   </span><br><span class="line">     EXIT WHEN emp_cursor%NOTFOUND;   </span><br><span class="line">     DBMS_OUTPUT.PUT_LINE(v_empno||','||v_ename);   </span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line">    <span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>说明：游标<code>emp_cursor</code>定义了两个参数：<code>p_deptno</code>代表部门编号，<code>p_job</code>代表职务。语句<code>OPEN emp_cursor(10, &#39;CLERK&#39;)</code>传递了两个参数值给游标，即部门为10、职务为CLERK，所以游标查询的内容是部门10的职务为CLERK的雇员。循环部分用于显示查询的内容。 </p>
+</li>
+<li><p>修改Open语句的参数</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SET</span> SERVEROUTPUT <span class="keyword">ON</span>  </span><br><span class="line">        <span class="keyword">DECLARE</span>  </span><br><span class="line">        v_empno <span class="built_in">NUMBER</span>(<span class="number">5</span>);   </span><br><span class="line">        v_ename VARCHAR2(10);   </span><br><span class="line">        v_deptno NUMBER(5);   </span><br><span class="line">v_job VARCHAR2(10);   </span><br><span class="line">         CURSOR emp_cursor IS  </span><br><span class="line">            <span class="keyword">SELECT</span> empno, ename <span class="keyword">FROM</span> emp   </span><br><span class="line">            <span class="keyword">WHERE</span>   deptno = v_deptno <span class="keyword">AND</span> job = v_job;   </span><br><span class="line">        <span class="keyword">BEGIN</span>  </span><br><span class="line">         v_deptno:=<span class="number">10</span>;   </span><br><span class="line">         v_job:='CLERK';   </span><br><span class="line">         OPEN emp_cursor;   </span><br><span class="line">        LOOP   </span><br><span class="line">         FETCH emp_cursor INTO v_empno,v_ename;   </span><br><span class="line">           EXIT WHEN emp_cursor%NOTFOUND;   </span><br><span class="line">DBMS_OUTPUT.PUT_LINE(v_empno||','||v_ename);   </span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">LOOP</span>;   </span><br><span class="line">        <span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+<p>说明：该程序与前一程序实现相同的功能，通过变量向游标传递参数，但变量需要先于游标定义，并在游标打开之前赋值。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/01/hexo教程/" rel="next" title="hexo教程">
+                <i class="fa fa-chevron-left"></i> hexo教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/04/bulk collect/" rel="prev" title="bulk collect">
+                bulk collect <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://skorodovska.oss-cn-beijing.aliyuncs.com/%5B2528%5DRED-65889763.jpg" alt="liyinghai">
+            
+              <p class="site-author-name" itemprop="name">liyinghai</p>
+              <p class="site-description motion-element" itemprop="description">Who am I? Where am I?</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/skorodovska" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:skorodovska@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#游标的概念"><span class="nav-number">1.</span> <span class="nav-text">游标的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显式游标"><span class="nav-number">2.</span> <span class="nav-text">显式游标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#游标取值实例"><span class="nav-number">3.</span> <span class="nav-text">游标取值实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显式游标属性"><span class="nav-number">4.</span> <span class="nav-text">显式游标属性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liyinghai</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lyh.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'skorodovska.top/2019/09/04/oracle游标/';
+          this.page.identifier = '2019/09/04/oracle游标/';
+          this.page.title = 'ORACLE游标';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lyh.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
