@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="技术,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="webservie+soap+wsdl入门1.简介最近因为一些特殊的需求需要提供一个基于 soap 的 webservice服务，之前没有经验，也不知道该怎么做，于是从网上查了很多东西，资料很多，但是大多不够详细，后来查到天气预报的webservice服务说明，算是看懂了一些，写在这里权做给大家做一个入门引导好了。    2.什么是webservice,什么是soap,什么是 wsdl SOAP：">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WSDL">
+<meta property="og:url" content="skorodovska.top/2020/01/15/wsdl/index.html">
+<meta property="og:site_name" content="SKORODOVSKA">
+<meta property="og:description" content="webservie+soap+wsdl入门1.简介最近因为一些特殊的需求需要提供一个基于 soap 的 webservice服务，之前没有经验，也不知道该怎么做，于是从网上查了很多东西，资料很多，但是大多不够详细，后来查到天气预报的webservice服务说明，算是看懂了一些，写在这里权做给大家做一个入门引导好了。    2.什么是webservice,什么是soap,什么是 wsdl SOAP：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-01-15T06:18:37.731Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WSDL">
+<meta name="twitter:description" content="webservie+soap+wsdl入门1.简介最近因为一些特殊的需求需要提供一个基于 soap 的 webservice服务，之前没有经验，也不知道该怎么做，于是从网上查了很多东西，资料很多，但是大多不够详细，后来查到天气预报的webservice服务说明，算是看懂了一些，写在这里权做给大家做一个入门引导好了。    2.什么是webservice,什么是soap,什么是 wsdl SOAP：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="skorodovska.top/2020/01/15/wsdl/">
+
+
+
+
+
+  <title>WSDL | SKORODOVSKA</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SKORODOVSKA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">All rivers and lakes through the ages</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            Books
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-movies">
+          <a href="/movies" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            Movies
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="skorodovska.top/2020/01/15/wsdl/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liyinghai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://skorodovska.oss-cn-beijing.aliyuncs.com/%5B2528%5DRED-65889763.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SKORODOVSKA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WSDL</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-15T14:18:00+08:00">
+                2020-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/01/15/wsdl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/15/wsdl/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="webservie-soap-wsdl入门"><a href="#webservie-soap-wsdl入门" class="headerlink" title="webservie+soap+wsdl入门"></a>webservie+soap+wsdl入门</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h2><p>最近因为一些特殊的需求需要提供一个基于 soap 的 webservice服务，之前没有经验，也不知道该怎么做，于是从网上查了很多东西，资料很多，但是大多不够详细，后来查到天气预报的webservice服务说明，算是看懂了一些，写在这里权做给大家做一个入门引导好了。</p>
+<p>  </p>
+<h2 id="2-什么是webservice-什么是soap-什么是-wsdl"><a href="#2-什么是webservice-什么是soap-什么是-wsdl" class="headerlink" title="2.什么是webservice,什么是soap,什么是 wsdl"></a>2.什么是webservice,什么是soap,什么是 wsdl</h2><ul>
+<li>SOAP：Simple Object Access Protocol</li>
+<li>WSDL：Web Services Description Language<br> 一开始接触这个东西的时候完全把我搞晕了。真的是坑，各种概念。我这里根据我的采坑经验给一些自己的见解，当然也要避免误导参考的人，所以力求准确吧。</li>
+</ul>
+<h3 id="2-1-什么是webservice"><a href="#2-1-什么是webservice" class="headerlink" title="2.1 什么是webservice"></a>2.1 什么是webservice</h3><p>  我觉得这个webservice有着狭义和广义的定义.<br>   广义的来说，webservice差不多就是字面意思：web + service,也就是 服务（service）网络（web）化的意思。他力求的是跨语言，跨平台的，基于web传输的远程调用能力。他没有强调远程调用使用什么协议，所以你可以自由选择，比如soap 协议(可与基于http,smtp,等各种传输协议)，或者常见的基于http的json化的数据传输协议，基于dubbo协议的dubbo服务调用都属于web service的一种实现。<br>   狭义的来说，这个首先声明，是我参考网上的资料已经自身的一些经历的解读哈。我认为大家经常谈的webservice是指基于soap协议实现的远程服务调用模型。</p>
+<h3 id="2-2-什么是soap"><a href="#2-2-什么是soap" class="headerlink" title="2.2 什么是soap"></a>2.2 什么是soap</h3><p>  saop定义了数据交互中如何传递消息的规则。比如在http中规定了post请求的传参方式，在数据类型不同的情况下可以使用不同的参数方式。在form格式下是 key=v&amp;key1=v1  ,同样soap也是定义这些东西的。</p>
+<h3 id="2-3-什么是wsdl"><a href="#2-3-什么是wsdl" class="headerlink" title="2.3 什么是wsdl"></a>2.3 什么是wsdl</h3><p>  同样的，当我们用http方式去调用一个服务的时候我们只是知道通用的http协议的传参方式还是不够的，我们仍然需要知道目标服务的接口文档，对了，这就是wsdl,每个服务都有的接口文档，在http上可能就是我们手写的一个wiki文档，在soap中就是一个用wsdl规范编写的wsdl文档，每个服务是有能力自动生成这个文档的。wsdl规范了这个文档应该怎么写。</p>
+<p>综上所述：soap可以类比http协议，wsdl可以类比一个http服务的接口文档。</p>
+<h2 id="3-结合比较常用的soap服务的wsdl文档来了解一下wsdl"><a href="#3-结合比较常用的soap服务的wsdl文档来了解一下wsdl" class="headerlink" title="3.结合比较常用的soap服务的wsdl文档来了解一下wsdl"></a>3.结合比较常用的soap服务的wsdl文档来了解一下wsdl</h2><p>这次用的一个比较常用的文档就是天气预报的webservice服务来进行学习<br> 链接：<a href="http://www.webxml.com.cn/WebServices/WeatherWebService.asmx" target="_blank" rel="noopener">http://www.webxml.com.cn/WebServices/WeatherWebService.asmx</a><br> 对应的是这个文档的可读性更强的介绍，他的实际接口文档是<br> <a href="http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?WSDL" target="_blank" rel="noopener">http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?WSDL</a><br> 这篇接口文档实际上是有多个接口的描述，当然，我们这里只取一个来进行描述，取的接口是<br> getWeatherbyCityName<br> <a href="http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?op=getWeatherbyCityName" target="_blank" rel="noopener">http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?op=getWeatherbyCityName</a><br> 这个页面有详细的请求体和返回结果，很具体。下面我们就从他的实际接口文档wsdl中来分析一下都有什么东西。<br> 我们知道wsdl文档包含了这么几个部分</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">definitions</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">types</span>&gt;</span></span><br><span class="line">   definition of types........</span><br><span class="line">数据类型定义的容器，它使用某种类型系统(一般地使用XML Schema中的类型系统)</span><br><span class="line"><span class="tag">&lt;/<span class="name">types</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">message</span>&gt;</span></span><br><span class="line">   definition of a message....</span><br><span class="line">通信消息的数据结构的抽象类型化定义。使用Types所定义的类型来定义整个消息的数据结构。</span><br><span class="line"><span class="tag">&lt;/<span class="name">message</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">portType</span>&gt;</span></span><br><span class="line">   definition of a port.......</span><br><span class="line">对于某个访问入口点类型所支持的操作的抽象集合，这些操作可以由一个或多个服务访问点来支持。</span><br><span class="line"><span class="tag">&lt;/<span class="name">portType</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">binding</span>&gt;</span></span><br><span class="line">   definition of a binding....</span><br><span class="line">特定端口类型的具体协议和数据格式规范的绑定。</span><br><span class="line"><span class="tag">&lt;/<span class="name">binding</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">service</span>&gt;</span></span><br><span class="line">相关服务访问点的集合。</span><br><span class="line"><span class="tag">&lt;/<span class="name">servie</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">definitions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下面我们使用getWeatherbyCityName这个接口在总的xml对应的部分做说明，将xml提取出来如下<br> 还请学习下面的文档的时候参考 <a href="http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?op=getWeatherbyCityName" target="_blank" rel="noopener">对应的可视化文档</a><br> 进行对比</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">wsdl:definitions</span> <span class="attr">xmlns:soap</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/soap/"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">xmlns:mime</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/mime/"</span> <span class="attr">xmlns:tns</span>=<span class="string">"http://WebXml.com.cn/"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">xmlns:s</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:soap12</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/soap12/"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">xmlns:http</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/http/"</span> <span class="attr">xmlns:wsdl</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">targetNamespace</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- types元素--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:types</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">s:schema</span> <span class="attr">elementFormDefault</span>=<span class="string">"qualified"</span> <span class="attr">targetNamespace</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--  可以看到，types 定义的是数据类型,可以在message元素中进行引用，他的存在形式可能是type也可能是element--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">s:complexType</span> <span class="attr">name</span>=<span class="string">"ArrayOfString"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">minOccurs</span>=<span class="string">"0"</span> <span class="attr">maxOccurs</span>=<span class="string">"unbounded"</span> <span class="attr">name</span>=<span class="string">"string"</span> <span class="attr">nillable</span>=<span class="string">"true"</span> <span class="attr">type</span>=<span class="string">"s:string"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">s:complexType</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">minOccurs</span>=<span class="string">"0"</span> <span class="attr">maxOccurs</span>=<span class="string">"1"</span> <span class="attr">name</span>=<span class="string">"theCityName"</span> <span class="attr">type</span>=<span class="string">"s:string"</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">s:element</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameResponse"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">minOccurs</span>=<span class="string">"0"</span> <span class="attr">maxOccurs</span>=<span class="string">"1"</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameResult"</span></span></span><br><span class="line"><span class="tag">                                   <span class="attr">type</span>=<span class="string">"tns:ArrayOfString"</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">s:element</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">name</span>=<span class="string">"ArrayOfString"</span> <span class="attr">nillable</span>=<span class="string">"true"</span> <span class="attr">type</span>=<span class="string">"tns:ArrayOfString"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">name</span>=<span class="string">"DataSet"</span> <span class="attr">nillable</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">s:element</span> <span class="attr">ref</span>=<span class="string">"s:schema"</span>/&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">s:any</span>/&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">s:sequence</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">s:complexType</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">s:element</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">s:schema</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:types</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--  message元素--&gt;</span></span><br><span class="line">    message 用来定义每个soap服务的入参和出参，包括参数名，参数类型信息。当引用了types  当中定义的element元素的时候，name只是有占位意义，并不具备实际的意义</span><br><span class="line">当引用了types中定义的 type型元素的时候，name 是有意义的,这里的每个message定义并不是针对某个接口的，而是作为基础元素，在portType中描述接口的时候使用。</span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameSoapIn"</span>&gt;</span></span><br><span class="line">        name只是有占位意义，并不具备实际的意义</span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"parameters"</span> <span class="attr">element</span>=<span class="string">"tns:getWeatherbyCityName"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameSoapOut"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"parameters"</span> <span class="attr">element</span>=<span class="string">"tns:getWeatherbyCityNameResponse"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameHttpGetIn"</span>&gt;</span></span><br><span class="line">        name 是有意义的</span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"theCityName"</span> <span class="attr">type</span>=<span class="string">"s:string"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameHttpGetOut"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"Body"</span> <span class="attr">element</span>=<span class="string">"tns:ArrayOfString"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameHttpPostIn"</span>&gt;</span></span><br><span class="line">        name 是有意义的</span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"theCityName"</span> <span class="attr">type</span>=<span class="string">"s:string"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:message</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityNameHttpPostOut"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:part</span> <span class="attr">name</span>=<span class="string">"Body"</span> <span class="attr">element</span>=<span class="string">"tns:ArrayOfString"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:message</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- portType 元素--&gt;</span></span><br><span class="line">    定义了一个接口的入参和出参,每个portType元素实际上对应了一个接口，就像springMVC当中controller当中定义的一个有@RequestMapping注解的方法一样，他描述了这个方法的入参和出参。</span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:portType</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceSoap"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameSoapIn"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameSoapOut"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:portType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:portType</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpGet"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameHttpGetIn"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameHttpGetOut"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:portType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:portType</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpPost"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:documentation</span> <span class="attr">xmlns:wsdl</span>=<span class="string">"http://schemas.xmlsoap.org/wsdl/"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">wsdl:documentation</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameHttpPostIn"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span> <span class="attr">message</span>=<span class="string">"tns:getWeatherbyCityNameHttpPostOut"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:portType</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- bingding元素 --&gt;</span></span><br><span class="line">    仔细观察下面的配置的话可以发现，这几个bingding元素的差异是很大的。</span><br><span class="line">   在bingding的第二行说明的是 该bingding使用的协议，是 soap或者soap12 或者是 http-get 或者是 http-post </span><br><span class="line">   这里的 bingding 元素对应的type属性标识了对应的portType元素</span><br><span class="line">   这里的operation对应了上面对应bingding元素中的operation,同时，这里可以岁输入输出做一些处理，比如urlEncoded。use="literal"表示不做特殊处理。</span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:binding</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceSoap"</span> <span class="attr">type</span>=<span class="string">"tns:WeatherWebServiceSoap"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">soap:binding</span> <span class="attr">transport</span>=<span class="string">"http://schemas.xmlsoap.org/soap/http"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">soap:operation</span> <span class="attr">soapAction</span>=<span class="string">"http://WebXml.com.cn/getWeatherbyCityName"</span> <span class="attr">style</span>=<span class="string">"document"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">soap:body</span> <span class="attr">use</span>=<span class="string">"literal"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">soap:body</span> <span class="attr">use</span>=<span class="string">"literal"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:binding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:binding</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceSoap12"</span> <span class="attr">type</span>=<span class="string">"tns:WeatherWebServiceSoap"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">soap12:binding</span> <span class="attr">transport</span>=<span class="string">"http://schemas.xmlsoap.org/soap/http"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">soap12:operation</span> <span class="attr">soapAction</span>=<span class="string">"http://WebXml.com.cn/getWeatherbyCityName"</span> <span class="attr">style</span>=<span class="string">"document"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">soap12:body</span> <span class="attr">use</span>=<span class="string">"literal"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">soap12:body</span> <span class="attr">use</span>=<span class="string">"literal"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:binding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:binding</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpGet"</span> <span class="attr">type</span>=<span class="string">"tns:WeatherWebServiceHttpGet"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">http:binding</span> <span class="attr">verb</span>=<span class="string">"GET"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">          在http类型中还会增加具体的location信息，这个在对应的http请求里面是可以区分出来的，比如，</span><br><span class="line">          soap对应的请求是 POST /WebServices/WeatherWebService.asmx HTTP/1.1 </span><br><span class="line">          http-get对应的请求是  GET /WebServices/WeatherWebService.asmx/getWeatherbyCityName?theCityName=string HTTP/1.1</span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">http:operation</span> <span class="attr">location</span>=<span class="string">"/getWeatherbyCityName"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">http:urlEncoded</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">mime:mimeXml</span> <span class="attr">part</span>=<span class="string">"Body"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:binding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:binding</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpPost"</span> <span class="attr">type</span>=<span class="string">"tns:WeatherWebServiceHttpPost"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">http:binding</span> <span class="attr">verb</span>=<span class="string">"POST"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:operation</span> <span class="attr">name</span>=<span class="string">"getWeatherbyCityName"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">http:operation</span> <span class="attr">location</span>=<span class="string">"/getWeatherbyCityName"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">mime:content</span> <span class="attr">type</span>=<span class="string">"application/x-www-form-urlencoded"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:input</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">mime:mimeXml</span> <span class="attr">part</span>=<span class="string">"Body"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">wsdl:output</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:operation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:binding</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- service 元素--&gt;</span></span><br><span class="line">    这里定义的是每个方法具体的访问地址，指向了每个bingding具体绑定的服务地址。</span><br><span class="line">    <span class="tag">&lt;<span class="name">wsdl:service</span> <span class="attr">name</span>=<span class="string">"WeatherWebService"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:port</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceSoap"</span> <span class="attr">binding</span>=<span class="string">"tns:WeatherWebServiceSoap"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">soap:address</span> <span class="attr">location</span>=<span class="string">"http://www.webxml.com.cn/WebServices/WeatherWebService.asmx"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:port</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:port</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceSoap12"</span> <span class="attr">binding</span>=<span class="string">"tns:WeatherWebServiceSoap12"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">soap12:address</span> <span class="attr">location</span>=<span class="string">"http://www.webxml.com.cn/WebServices/WeatherWebService.asmx"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:port</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:port</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpGet"</span> <span class="attr">binding</span>=<span class="string">"tns:WeatherWebServiceHttpGet"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">http:address</span> <span class="attr">location</span>=<span class="string">"http://www.webxml.com.cn/WebServices/WeatherWebService.asmx"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:port</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">wsdl:port</span> <span class="attr">name</span>=<span class="string">"WeatherWebServiceHttpPost"</span> <span class="attr">binding</span>=<span class="string">"tns:WeatherWebServiceHttpPost"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">http:address</span> <span class="attr">location</span>=<span class="string">"http://www.webxml.com.cn/WebServices/WeatherWebService.asmx"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">wsdl:port</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">wsdl:service</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">wsdl:definitions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-干脆把对应的请求信息也摘录下来好了"><a href="#4-干脆把对应的请求信息也摘录下来好了" class="headerlink" title="4. 干脆把对应的请求信息也摘录下来好了"></a>4. 干脆把对应的请求信息也摘录下来好了</h2><p>截取自 <a href="http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?op=getWeatherbyCityName" target="_blank" rel="noopener">这里</a></p>
+<p><strong>getWeatherbyCityName</strong></p>
+<h3 id="4-1-SOAP-1-1"><a href="#4-1-SOAP-1-1" class="headerlink" title="4.1 SOAP 1.1"></a>4.1 SOAP 1.1</h3><p>以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">POST /WebServices/WeatherWebService.asmx HTTP/1.1</span><br><span class="line">Host: www.webxml.com.cn</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">Content-Length: length</span><br><span class="line">SOAPAction: "http://WebXml.com.cn/getWeatherbyCityName"</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:xsd</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:soap</span>=<span class="string">"http://schemas.xmlsoap.org/soap/envelope/"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">soap:Body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">getWeatherbyCityName</span> <span class="attr">xmlns</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">theCityName</span>&gt;</span>string<span class="tag">&lt;/<span class="name">theCityName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">getWeatherbyCityName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">soap:Body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Envelope</span>&gt;</span></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:xsd</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:soap</span>=<span class="string">"http://schemas.xmlsoap.org/soap/envelope/"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">soap:Body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">getWeatherbyCityNameResponse</span> <span class="attr">xmlns</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">getWeatherbyCityNameResult</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>string<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>string<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">getWeatherbyCityNameResult</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">getWeatherbyCityNameResponse</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">soap:Body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Envelope</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-2-SOAP-1-2"><a href="#4-2-SOAP-1-2" class="headerlink" title="4.2 SOAP 1.2"></a>4.2 SOAP 1.2</h3><p>以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">POST /WebServices/WeatherWebService.asmx HTTP/1.1</span><br><span class="line">Host: www.webxml.com.cn</span><br><span class="line">Content-Type: application/soap+xml; charset=utf-8</span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap12:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:xsd</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:soap12</span>=<span class="string">"http://www.w3.org/2003/05/soap-envelope"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">soap12:Body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">getWeatherbyCityName</span> <span class="attr">xmlns</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">theCityName</span>&gt;</span>string<span class="tag">&lt;/<span class="name">theCityName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">getWeatherbyCityName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">soap12:Body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap12:Envelope</span>&gt;</span></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/soap+xml; charset=utf-8</span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap12:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:xsd</span>=<span class="string">"http://www.w3.org/2001/XMLSchema"</span> <span class="attr">xmlns:soap12</span>=<span class="string">"http://www.w3.org/2003/05/soap-envelope"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">soap12:Body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">getWeatherbyCityNameResponse</span> <span class="attr">xmlns</span>=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">getWeatherbyCityNameResult</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>string<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>string<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">getWeatherbyCityNameResult</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">getWeatherbyCityNameResponse</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">soap12:Body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap12:Envelope</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-3-HTTP-GET"><a href="#4-3-HTTP-GET" class="headerlink" title="4.3 HTTP GET"></a>4.3 HTTP GET</h3><p>以下是 HTTP GET 请求和响应示例。所显示的占位符需替换为实际值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /WebServices/WeatherWebService.asmx/getWeatherbyCityName?theCityName=<span class="built_in">string</span> HTTP/<span class="number">1.1</span></span><br><span class="line">Host: www.webxml.com.cn</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-Type: text/xml; charset=utf<span class="number">-8</span></span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;ArrayOfString xmlns=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span><br><span class="line">  &lt;<span class="built_in">string</span>&gt;<span class="built_in">string</span>&lt;/<span class="built_in">string</span>&gt;</span><br><span class="line">  &lt;<span class="built_in">string</span>&gt;<span class="built_in">string</span>&lt;/<span class="built_in">string</span>&gt;</span><br><span class="line">&lt;/ArrayOfString&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-HTTP-POST"><a href="#4-4-HTTP-POST" class="headerlink" title="4.4 HTTP POST"></a>4.4 HTTP POST</h3><p>以下是 HTTP POST 请求和响应示例。所显示的占位符需替换为实际值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /WebServices/WeatherWebService.asmx/getWeatherbyCityName HTTP/<span class="number">1.1</span></span><br><span class="line">Host: www.webxml.com.cn</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line">theCityName=<span class="built_in">string</span></span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Content-Type: text/xml; charset=utf<span class="number">-8</span></span><br><span class="line">Content-Length: length</span><br><span class="line"></span><br><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;ArrayOfString xmlns=<span class="string">"http://WebXml.com.cn/"</span>&gt;</span><br><span class="line">  &lt;<span class="built_in">string</span>&gt;<span class="built_in">string</span>&lt;/<span class="built_in">string</span>&gt;</span><br><span class="line">  &lt;<span class="built_in">string</span>&gt;<span class="built_in">string</span>&lt;/<span class="built_in">string</span>&gt;</span><br><span class="line">&lt;/ArrayOfString&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/04/bulk collect/" rel="next" title="bulk collect">
+                <i class="fa fa-chevron-left"></i> bulk collect
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://skorodovska.oss-cn-beijing.aliyuncs.com/%5B2528%5DRED-65889763.jpg" alt="liyinghai">
+            
+              <p class="site-author-name" itemprop="name">liyinghai</p>
+              <p class="site-description motion-element" itemprop="description">Who am I? Where am I?</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/skorodovska" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:skorodovska@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webservie-soap-wsdl入门"><span class="nav-number">1.</span> <span class="nav-text">webservie+soap+wsdl入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-number">1.1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-什么是webservice-什么是soap-什么是-wsdl"><span class="nav-number">1.2.</span> <span class="nav-text">2.什么是webservice,什么是soap,什么是 wsdl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-什么是webservice"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 什么是webservice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-什么是soap"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 什么是soap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-什么是wsdl"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 什么是wsdl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-结合比较常用的soap服务的wsdl文档来了解一下wsdl"><span class="nav-number">1.3.</span> <span class="nav-text">3.结合比较常用的soap服务的wsdl文档来了解一下wsdl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-干脆把对应的请求信息也摘录下来好了"><span class="nav-number">1.4.</span> <span class="nav-text">4. 干脆把对应的请求信息也摘录下来好了</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-SOAP-1-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 SOAP 1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SOAP-1-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 SOAP 1.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-HTTP-GET"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 HTTP GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-HTTP-POST"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 HTTP POST</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liyinghai</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://lyh.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'skorodovska.top/2020/01/15/wsdl/';
+          this.page.identifier = '2020/01/15/wsdl/';
+          this.page.title = 'WSDL';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://lyh.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
