@@ -161,13 +161,33 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 3 篇日志。 继续努力。</span>
+        <span class="collection-header">嗯..! 目前共计 4 篇日志。 继续努力。</span>
       </div>
 
       
     <div class="collection-year">
       <span class="collection-header">2022</span>
     </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2022-06-12T17:20:19+08:00"
+              content="2022-06-12">
+          06-12
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2022/06/12/Hexo%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="url">
+            <span itemprop="name">page</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
 
   <article itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -201,8 +221,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2022/06/05/%E6%80%BB%E9%83%A8%E8%AE%A2%E5%8D%95%E5%8F%91%E5%B8%83%E9%80%BB%E8%BE%91/" itemprop="url">
-            <span itemprop="name">总部订单发布</span>
+          <a class="post-title-link" href="/2022/06/05/Hibernate%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">
+            <span itemprop="name">Hibernate学习笔记</span>
           </a>
       </div>
 
@@ -221,8 +241,8 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2022/06/05/Hibernate%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">Hibernate学习笔记</span>
+          <a class="post-title-link" href="/2022/06/05/%E6%80%BB%E9%83%A8%E8%AE%A2%E5%8D%95%E5%8F%91%E5%B8%83%E9%80%BB%E8%BE%91/" itemprop="url">
+            <span itemprop="name">总部订单发布</span>
           </a>
       </div>
 
@@ -302,20 +322,20 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -370,7 +390,6 @@
 
 
 
-
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -419,6 +438,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   

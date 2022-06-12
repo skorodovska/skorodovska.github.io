@@ -182,10 +182,10 @@
       <div class="post-body">
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-              目前共计 4 个标签
+              目前共计 5 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/CIS/" style="font-size: 30px; color: #111">CIS</a> <a href="/tags/Forecast/" style="font-size: 30px; color: #111">Forecast</a> <a href="/tags/Hibernate/" style="font-size: 12px; color: #ccc">Hibernate</a> <a href="/tags/Java/" style="font-size: 12px; color: #ccc">Java</a>
+              <a href="/tags/CIS/" style="font-size: 30px; color: #111">CIS</a> <a href="/tags/Forecast/" style="font-size: 30px; color: #111">Forecast</a> <a href="/tags/Hexo/" style="font-size: 12px; color: #ccc">Hexo</a> <a href="/tags/Hibernate/" style="font-size: 12px; color: #ccc">Hibernate</a> <a href="/tags/Java/" style="font-size: 12px; color: #ccc">Java</a>
             </div>
           </div>
         
@@ -263,20 +263,20 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -331,7 +331,6 @@
 
 
 
-
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -380,6 +379,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
