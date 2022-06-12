@@ -183,7 +183,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-06-12 17:20:19 / 修改时间：17:50:58" itemprop="dateCreated datePublished" datetime="2022-06-12T17:20:19+08:00">2022-06-12</time>
+              <time title="创建时间：2022-06-12 17:20:19 / 修改时间：20:23:30" itemprop="dateCreated datePublished" datetime="2022-06-12T17:20:19+08:00">2022-06-12</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -201,7 +201,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>55</span>
+              <span>545</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -220,7 +220,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="更换电脑后迁移hexo博客"><a href="#更换电脑后迁移hexo博客" class="headerlink" title="更换电脑后迁移hexo博客"></a>更换电脑后迁移hexo博客</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在台式机上搭建了hexo博客后，想要在笔记本电脑上进行文章的编写与上传所以想要将</p>
+          <h2 id="多设备同步更新"><a href="#多设备同步更新" class="headerlink" title="多设备同步更新"></a>多设备同步更新</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在台式机上搭建了hexo博客后，想要笔记本电脑上进行文章的编写与上传，记录下操作步骤</p>
+<h3 id="旧电脑"><a href="#旧电脑" class="headerlink" title="旧电脑"></a>旧电脑</h3><h5 id="1-创建新分支"><a href="#1-创建新分支" class="headerlink" title="1. 创建新分支"></a>1. 创建新分支</h5><p>我们创建一个名为<code>backup</code>的分支</p>
+
+
+<h5 id="2-将新分支设为默认分支"><a href="#2-将新分支设为默认分支" class="headerlink" title="2. 将新分支设为默认分支"></a>2. 将新分支设为默认分支</h5><p>博客项目存储库设置-分支-修改默认分支即可</p>
+
+
+<h5 id="3-将分支克隆到本地"><a href="#3-将分支克隆到本地" class="headerlink" title="3. 将分支克隆到本地"></a>3. 将分支克隆到本地</h5><p>这里注意,尽量不要和原博客文件夹在同一路径,如果像我一样库名称和本地问价夹名称相同会出问题(实在不懂什么意思就把原博客文件夹备份一下,出问题还能救)</p>
+
+
+<h5 id="4-将-git文件夹复制到博客根目录"><a href="#4-将-git文件夹复制到博客根目录" class="headerlink" title="4.  将.git文件夹复制到博客根目录"></a>4.  将<code>.git</code>文件夹复制到博客根目录</h5><p>如果看不到<code>.git</code>文件夹就去 windows 此电脑-查看-隐藏的项目勾选上整个文件夹直接替换掉原博客文件夹下的<code>.git</code>文件夹即可</p>
+
+
+<h5 id="5-将文件添加到暂存区"><a href="#5-将文件添加到暂存区" class="headerlink" title="5. 将文件添加到暂存区"></a>5. 将文件添加到暂存区</h5><p><code>git add –A</code></p>
+<h5 id="6-提交到本地仓库"><a href="#6-提交到本地仓库" class="headerlink" title="6. 提交到本地仓库"></a>6. 提交到本地仓库</h5><p><code>git commit -m &quot;backup&quot;</code></p>
+<h5 id="7-推送到backup分支"><a href="#7-推送到backup分支" class="headerlink" title="7. 推送到backup分支"></a>7. 推送到<code>backup</code>分支</h5><p><code>git push origin backup</code></p>
+<h3 id="新电脑"><a href="#新电脑" class="headerlink" title="新电脑"></a>新电脑</h3><h5 id="1-将分支克隆到本地"><a href="#1-将分支克隆到本地" class="headerlink" title="1. 将分支克隆到本地"></a>1. 将分支克隆到本地</h5><p><code>git clone 仓库地址</code></p>
+<h5 id="2-安装依赖"><a href="#2-安装依赖" class="headerlink" title="2. 安装依赖"></a>2. 安装依赖</h5><p><code>npm install</code></p>
+<h3 id="所有电脑每次更新"><a href="#所有电脑每次更新" class="headerlink" title="所有电脑每次更新"></a>所有电脑每次更新</h3><h5 id="都要执行以下指令"><a href="#都要执行以下指令" class="headerlink" title="都要执行以下指令"></a>都要执行以下指令</h5><p>(修改完成后直接点击下面代码块右上角<code>Copy</code>全部粘贴到 Git Bash 即可)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;backup&quot;</span><br><span class="line">git push origin backup</span><br><span class="line">hexo cl</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
       
     </div>
