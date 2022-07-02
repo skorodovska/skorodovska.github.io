@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"skorodovska.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"b2t":true,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="简介Hibernate 是一种 Java 语言下的对象关系映射（object relation mapping）解决方案，或者说框架。它是使用 GNU 宽通用公共许可证发行的自由、开源的软件。它为面向对象的领域模型到传统的关系型数据库的映射，提供了一个使用方便的框架。它的设计目标是将软件开发人员从大量相同的数据持久层相关编程工作中解放出来。无论是从设计草案还是从一个遗留数据库开始，开发人员都可以采">
+  <meta name="description" content="本次学习是基于Hibernate5.x进行的，并且使用的是Hibernate映射文件的方式，因为我确实没有找到比较的新的资源:dog:，啊这…就先做一个入门吧  概念什么是Hibernate？一个框架，一个Java领域的持久化框架，一个ORM框架 什么是持久化？ 狭义的理解：“持久化”仅仅指把对象永久的保存到数据库中  广义的理解：“持久化”包括和数据库相关的各种操作  保存：把对象永久的保存到">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hibernate学习笔记">
 <meta property="og:url" content="https://skorodovska.top/2022/06/05/Hibernate%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="LYHの博客">
-<meta property="og:description" content="简介Hibernate 是一种 Java 语言下的对象关系映射（object relation mapping）解决方案，或者说框架。它是使用 GNU 宽通用公共许可证发行的自由、开源的软件。它为面向对象的领域模型到传统的关系型数据库的映射，提供了一个使用方便的框架。它的设计目标是将软件开发人员从大量相同的数据持久层相关编程工作中解放出来。无论是从设计草案还是从一个遗留数据库开始，开发人员都可以采">
+<meta property="og:description" content="本次学习是基于Hibernate5.x进行的，并且使用的是Hibernate映射文件的方式，因为我确实没有找到比较的新的资源:dog:，啊这…就先做一个入门吧  概念什么是Hibernate？一个框架，一个Java领域的持久化框架，一个ORM框架 什么是持久化？ 狭义的理解：“持久化”仅仅指把对象永久的保存到数据库中  广义的理解：“持久化”包括和数据库相关的各种操作  保存：把对象永久的保存到">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-05T12:48:28.000Z">
-<meta property="article:modified_time" content="2022-06-09T01:57:13.736Z">
+<meta property="article:modified_time" content="2022-07-02T09:58:50.451Z">
 <meta property="article:author" content="skordovska">
 <meta property="article:tag" content="Hibernate">
 <meta property="article:tag" content="Java">
@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-09 09:57:13" itemprop="dateModified" datetime="2022-06-09T09:57:13+08:00">2022-06-09</time>
+                <time title="修改时间：2022-07-02 17:58:50" itemprop="dateModified" datetime="2022-07-02T17:58:50+08:00">2022-07-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,14 +213,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>423</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -232,8 +232,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Hibernate 是一种 Java 语言下的<strong>对象关系映射（object relation mapping）解决方案，或者说框架</strong>。它是使用 GNU 宽通用公共许可证发行的自由、开源的软件。它为面向对象的领域模型到传统的关系型数据库的映射，提供了一个使用方便的框架。<br>它的设计目标是将软件开发人员从大量相同的<strong>数据持久层相关编程工作中解放出来</strong>。无论是从设计草案还是从一个遗留数据库开始，开发人员都可以采用 Hibernate。<br>Hibernate 不仅负责从 Java 类到数据库表的映射（还包括从 Java 数据类型到 <code>SQL</code> 数据类型的映射），还提供了面向对象的数据查询检索机制，<strong>从而极大地缩短的手动处理 <code>SQL</code> 和 <code>JDBC</code> 上的开发时间。</strong></p>
-<p>数据持久化…简单说就是把数据（比如对象）保存起来，保存到文件也好数据库也好，都是持久化的体现，也许你会想到序列化，它们两个很相似，但是是两个完全不同的应用场景，持久持久，久….序列化多是为了能将对象更好的交换、传输（比如从这个线程到那个线程）</p>
+        <blockquote>
+<p>本次学习是基于<code>Hibernate5.x</code>进行的，并且使用的是Hibernate映射文件的方式，因为我确实没有找到比较的新的资源:dog:，啊这…就先做一个入门吧</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="什么是Hibernate？"><a href="#什么是Hibernate？" class="headerlink" title="什么是Hibernate？"></a>什么是Hibernate？</h3><p>一个框架，一个Java领域的持久化框架，一个<code>ORM</code>框架</p>
+<h3 id="什么是持久化？"><a href="#什么是持久化？" class="headerlink" title="什么是持久化？"></a>什么是持久化？</h3><ul>
+<li><p>狭义的理解：“持久化”仅仅指把对象永久的保存到数据库中</p>
+</li>
+<li><p>广义的理解：“持久化”包括和数据库相关的各种操作</p>
+<ul>
+<li>保存：把对象永久的保存到数据库中</li>
+<li>更新：更新数据库中对象（记录）的状态</li>
+<li>删除：从数据库中删除一个对象</li>
+<li>查询：根据特定的查询条件，把符合条件的一个或多个对象从数据库加载到内存中</li>
+<li>加载：根据特定的**<code>OID</code>**，把一个对象从数据库加载到内存中<ul>
+<li>**<code>OID</code>**：为了在系统中找到所需对象，需要为每一个对象分配一个唯一的标识号，在数据库中称之为主键，在对象术语中，则叫做对象标识（<code>Object-identifier-OID</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="什么是ORM？"><a href="#什么是ORM？" class="headerlink" title="什么是ORM？"></a>什么是<code>ORM</code>？</h3><p><code>ORM</code>（Object&#x2F;Relation Mapping）:<strong>对象&#x2F;关系</strong>映射</p>
+<ul>
+<li><p><code>ORM</code>主要解决对象-关系的映射</p>
+<ul>
+<li><table>
+<thead>
+<tr>
+<th>面向对象概念</th>
+<th>面向关系概念</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类</td>
+<td>表</td>
+</tr>
+<tr>
+<td>对象</td>
+<td>表的行（记录）</td>
+</tr>
+<tr>
+<td>属性</td>
+<td>表的列（字段）</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p><code>ORM</code>的思想：将关系数据库中表的记录映射成对象，以对象的形式展现，我们<strong>可以把对数据库的操作转换为对对象的操作</strong></p>
+</li>
+<li><p><code>ORM</code>采用<strong>元数据</strong>来描述对象-关系映射细节，元数据通常采用XML格式，并且存放专门的对象-关系映射文件中</p>
+<ul>
+<li>元数据：描述数据的数据，例如描述类与表的关系的文件就成为元数据文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="Hibernate开发步骤"><a href="#Hibernate开发步骤" class="headerlink" title="Hibernate开发步骤"></a>Hibernate开发步骤</h2><h3 id="搭建hibernate环境"><a href="#搭建hibernate环境" class="headerlink" title="搭建hibernate环境"></a>搭建hibernate环境</h3><ol>
+<li><p>创建实体类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sko.entity;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> skorodovska</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2022-06-29-22:30</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer uid;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getUid</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> uid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUid</span><span class="params">(Integer uid)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.uid = uid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAddress</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAddress</span><span class="params">(String address)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置实体类和数据库表一一对应关系（<code>xxx.hbm.xml</code>）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-mapping</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--类和表的映射--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">&quot;com.sko.entity.User&quot;</span> <span class="attr">table</span>=<span class="string">&quot;t_user&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--id标签</span></span><br><span class="line"><span class="comment">        name属性：实体类里面ID名称</span></span><br><span class="line"><span class="comment">        column属性：生成的表字段名称--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">&quot;uid&quot;</span> <span class="attr">column</span>=<span class="string">&quot;uid&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--id增长策略</span></span><br><span class="line"><span class="comment">            native：生成表ID值就是主键自增--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">&quot;native&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--属性映射--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">column</span>=<span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">column</span>=<span class="string">&quot;password&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span> <span class="attr">column</span>=<span class="string">&quot;address&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Hibernate配置文件（<code>hibernate.cfg.xml</code>）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">hibernate-configuration</span> <span class="keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;-//Hibernate/Hibernate Configuration DTD//EN&quot;</span></span></span><br><span class="line"><span class="meta">    <span class="string">&quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">session-factory</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 第一部分：配置数据库信息（必须的） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.driver_class&quot;</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.url&quot;</span>&gt;</span>jdbc:mysql://localhost:3306/mybase<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.username&quot;</span>&gt;</span>root<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 第二部分：配置hibernate信息（可选的） --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 输出底层sql语句 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.show_sql&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 输出底层sql语句格式化 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.format_sql&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 自动创建表 需要配置之后</span></span><br><span class="line"><span class="comment">        update：有表更新，没有表创建--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.hbm2ddl.auto&quot;</span>&gt;</span>update<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hibernate的方言</span></span><br><span class="line"><span class="comment">         让hibernate框架识别不同数据库的语句--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dialect&quot;</span>&gt;</span>org.hibernate.dialect.MySQLDialect<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 第三部分：把映射文件放到核心配置文件中（必须的） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">resource</span>=<span class="string">&quot;com/sko/entity/User.hbm.xml&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">session-factory</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="实现添加操作"><a href="#实现添加操作" class="headerlink" title="实现添加操作"></a>实现添加操作</h3><ol>
+<li>加载hibernate核心配置文件</li>
+<li>创建<code>SessionFactory</code>对象</li>
+<li>使用<code>SessionFactory</code>对象创建session对象</li>
+<li>开启事务</li>
+<li>具体逻辑CRUD操作</li>
+<li>提交事务</li>
+<li>关闭资源</li>
+</ol>
 
     </div>
 
@@ -329,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHibernate%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Hibernate？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8C%81%E4%B9%85%E5%8C%96%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">什么是持久化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFORM%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是ORM？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hibernate%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">Hibernate开发步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BAhibernate%E7%8E%AF%E5%A2%83"><span class="nav-number">2.1.</span> <span class="nav-text">搭建hibernate环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%B7%BB%E5%8A%A0%E6%93%8D%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text">实现添加操作</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -399,13 +471,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">3k</span>
+    <span title="站点总字数">7k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3 分钟</span>
+    <span title="站点阅读时长">6 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
